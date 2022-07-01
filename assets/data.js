@@ -1,4 +1,4 @@
-import { RainIcon, ThunderIcon, WindIcon } from "./icons/Icons";
+import { RainIcon, ThunderIcon, TVIcon, WindIcon } from "./icons/Icons";
 
 export const soundsList = [
   {
@@ -20,6 +20,13 @@ export const soundsList = [
     id: 2,
     name: "Wind",
     icon: WindIcon,
+    uri: "../assets/sounds/Wind.mp3",
+  },
+  {
+    key: 4,
+    id: 3,
+    name: "TV Static",
+    icon: TVIcon,
     uri: "../assets/sounds/Wind.mp3",
   },
 ];

@@ -19,35 +19,107 @@ import {
   TimerIcon,
 } from "../assets/icons/Icons";
 import { Audio } from "expo-av";
-import { AudioContext } from "../AudioContext";
 
 const { height, width } = Dimensions.get("window");
 
 const HomeScreen = () => {
   const [isPlaying, setIsPlaying] = React.useState(false);
-  const [playbackObj, setPlaybackObj] = React.useState(null);
   const [soundObj, setSoundObj] = React.useState(null);
-  const { audioState, setAudioState, key, setKey } =
-    React.useContext(AudioContext);
 
   const handlePlayPause = async (song) => {
-    setIsPlaying(!isPlaying);
-    if (soundObj === null) {
-      const status = await Audio.Sound.createAsync(
+    if (song == 0) {
+      if (isPlaying) {
+        setIsPlaying(false);
+        soundObj.pauseAsync();
+      }
+      if (soundObj !== null) {
+        soundObj.unloadAsync();
+      }
+      const { sound } = await Audio.Sound.createAsync(
         require("../assets/sounds/Rain.mp3"),
         { shouldPlay: true }
       );
-      setPlaybackObj(playbackObj);
-      setSoundObj(status);
-      //   soundObj.playAsync();
+      setIsPlaying(true);
+      setSoundObj(sound);
+      sound.setIsLoopingAsync(true);
+
+      if (isPlaying) {
+        sound.pauseAsync();
+        setIsPlaying(false);
+      } else if (!isPlaying) {
+        sound.playAsync();
+        setIsPlaying(true);
+      }
+    } else if (song == 1) {
+      if (isPlaying) {
+        setIsPlaying(false);
+        soundObj.pauseAsync();
+      }
+      if (soundObj !== null) {
+        soundObj.unloadAsync();
+      }
+      const { sound } = await Audio.Sound.createAsync(
+        require("../assets/sounds/Thunder.mp3"),
+        { shouldPlay: true }
+      );
+      setIsPlaying(true);
+      setSoundObj(sound);
+      sound.setIsLoopingAsync(true);
+
+      if (isPlaying) {
+        sound.pauseAsync();
+        setIsPlaying(false);
+      } else if (!isPlaying) {
+        sound.playAsync();
+        setIsPlaying(true);
+      }
+    } else if (song == 2) {
+      if (isPlaying) {
+        setIsPlaying(false);
+        soundObj.pauseAsync();
+      }
+      if (soundObj !== null) {
+        soundObj.unloadAsync();
+      }
+      const { sound } = await Audio.Sound.createAsync(
+        require("../assets/sounds/Wind.mp3"),
+        { shouldPlay: true }
+      );
+      setIsPlaying(true);
+      setSoundObj(sound);
+      sound.setIsLoopingAsync(true);
+
+      if (isPlaying) {
+        sound.pauseAsync();
+        setIsPlaying(false);
+      } else if (!isPlaying) {
+        sound.playAsync();
+        setIsPlaying(true);
+      }
+    } else if (song == 3) {
+      if (isPlaying) {
+        setIsPlaying(false);
+        soundObj.pauseAsync();
+      }
+      if (soundObj !== null) {
+        soundObj.unloadAsync();
+      }
+      const { sound } = await Audio.Sound.createAsync(
+        require("../assets/sounds/TV-Static.mp3"),
+        { shouldPlay: true }
+      );
+      setIsPlaying(true);
+      setSoundObj(sound);
+      sound.setIsLoopingAsync(true);
+
+      if (isPlaying) {
+        sound.pauseAsync();
+        setIsPlaying(false);
+      } else if (!isPlaying) {
+        sound.playAsync();
+        setIsPlaying(true);
+      }
     }
-    // else if (playbackObj.isLoaded && playbackObj.isPlaying) {
-    //   const status = playbackObj.setStatusAsync({ shouldPlay: false });
-    //   setSoundObj(status);
-    // } else if (playbackObj.isLoaded && !playbackObj.isPlaying) {
-    //   const status = playbackObj.playAsync();
-    //   setSoundObj(status);
-    // }
   };
 
   React.useEffect(() => {
