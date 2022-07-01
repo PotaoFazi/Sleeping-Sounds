@@ -1,5 +1,6 @@
-import React from "react";
+import { Audio } from "expo-av";
 import { StatusBar } from "expo-status-bar";
+import { useContext, useEffect, useState } from "react";
 import {
   Dimensions,
   ScrollView,
@@ -9,26 +10,18 @@ import {
   View,
 } from "react-native";
 import { soundsList } from "../assets/data";
-import { defaultColors } from "../Colors";
-import { Feather } from "@expo/vector-icons";
-import ItemsComponent from "../components/ItemsComponent";
-import {
-  PauseIcon,
-  PlayIcon,
-  RainIcon,
-  TimerIcon,
-} from "../assets/icons/Icons";
-import { Audio } from "expo-av";
+import { PauseIcon, PlayIcon, TimerIcon } from "../assets/icons/Icons";
 import { AudioContext } from "../AudioContext";
+import { defaultColors } from "../Colors";
+import ItemsComponent from "../components/ItemsComponent";
 
 const { height, width } = Dimensions.get("window");
 
 const HomeScreen = () => {
-  const [isPlaying, setIsPlaying] = React.useState(false);
-  const [playbackObj, setPlaybackObj] = React.useState(null);
-  const [soundObj, setSoundObj] = React.useState(null);
-  const { audioState, setAudioState, key, setKey } =
-    React.useContext(AudioContext);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [playbackObj, setPlaybackObj] = useState(null);
+  const [soundObj, setSoundObj] = useState(null);
+  const { audioState, setAudioState, key, setKey } = useContext(AudioContext);
 
   const handlePlayPause = async (song) => {
     setIsPlaying(!isPlaying);
@@ -39,18 +32,10 @@ const HomeScreen = () => {
       );
       setPlaybackObj(playbackObj);
       setSoundObj(status);
-      //   soundObj.playAsync();
     }
-    // else if (playbackObj.isLoaded && playbackObj.isPlaying) {
-    //   const status = playbackObj.setStatusAsync({ shouldPlay: false });
-    //   setSoundObj(status);
-    // } else if (playbackObj.isLoaded && !playbackObj.isPlaying) {
-    //   const status = playbackObj.playAsync();
-    //   setSoundObj(status);
-    // }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     Audio.setAudioModeAsync({
       allowsRecordingIOS: false,
       playsInSilentModeIOS: true,

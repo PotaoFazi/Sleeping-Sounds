@@ -11,7 +11,6 @@ const ItemsComponent = (props) => {
     <View style={styles.container}>
       {props.icon && <props.icon style={styles.icon} />}
       <Text>{props.name}</Text>
-      {setKey(props.id)}
     </View>
   );
 };
