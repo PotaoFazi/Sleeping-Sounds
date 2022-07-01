@@ -19,18 +19,20 @@ import {
   TimerIcon,
 } from "../assets/icons/Icons";
 import { Audio } from "expo-av";
+import { Sound } from "expo-av/build/Audio";
 
 const { height, width } = Dimensions.get("window");
 
 const HomeScreen = () => {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [soundObj, setSoundObj] = React.useState(null);
+  const [nowPlaying, setNowPlaying] = React.useState("Select a sound");
 
   const handlePlayPause = async (song) => {
     if (song == 0) {
       if (isPlaying) {
         setIsPlaying(false);
-        soundObj.pauseAsync();
+        soundObj.stopAsync();
       }
       if (soundObj !== null) {
         soundObj.unloadAsync();
@@ -53,11 +55,11 @@ const HomeScreen = () => {
     } else if (song == 1) {
       if (isPlaying) {
         setIsPlaying(false);
-        soundObj.pauseAsync();
+        soundObj.stopAsync();
       }
-      if (soundObj !== null) {
-        soundObj.unloadAsync();
-      }
+      // if (soundObj !== null) {
+      //   soundObj.unloadAsync();
+      // }
       const { sound } = await Audio.Sound.createAsync(
         require("../assets/sounds/Thunder.mp3"),
         { shouldPlay: true }
@@ -119,6 +121,39 @@ const HomeScreen = () => {
         sound.playAsync();
         setIsPlaying(true);
       }
+    } else if (song == 4) {
+      if (isPlaying) {
+        setIsPlaying(false);
+        soundObj.pauseAsync();
+      }
+      if (soundObj !== null) {
+        soundObj.unloadAsync();
+      }
+      const { sound } = await Audio.Sound.createAsync(
+        require("../assets/sounds/Fire.mp3"),
+        { shouldPlay: true }
+      );
+      setIsPlaying(true);
+      setSoundObj(sound);
+      sound.setIsLoopingAsync(true);
+
+      if (isPlaying) {
+        sound.pauseAsync();
+        setIsPlaying(false);
+      } else if (!isPlaying) {
+        sound.playAsync();
+        setIsPlaying(true);
+      }
+    }
+  };
+
+  const handleStop = async () => {
+    if (isPlaying) {
+      soundObj.pauseAsync();
+      setIsPlaying(false);
+    } else {
+      soundObj.playAsync();
+      setIsPlaying(true);
     }
   };
 
@@ -127,7 +162,7 @@ const HomeScreen = () => {
       allowsRecordingIOS: false,
       playsInSilentModeIOS: true,
       shouldDuckAndroid: true,
-      playThroughEarpieceAndroid: true,
+      // playThroughEarpieceAndroid: true,
       staysActiveInBackground: true,
       staysActiveInBackgroundAndroid: true,
     });
@@ -137,8 +172,16 @@ const HomeScreen = () => {
   return (
     <>
       <ScrollView contentContainerStyle={styles.container}>
+        <Text style={{ width: "100%", textAlign: "center", color: "#929493" }}>
+          Double tap to play
+        </Text>
         {soundsList.map((item) => (
-          <TouchableOpacity onPress={() => handlePlayPause(item.id)}>
+          <TouchableOpacity
+            onPress={() => {
+              handlePlayPause(item.id);
+              setNowPlaying(item.name);
+            }}
+          >
             <ItemsComponent
               key={item.key}
               id={item.id}
@@ -150,13 +193,10 @@ const HomeScreen = () => {
         ))}
       </ScrollView>
       <View style={styles.controller}>
-        <TouchableOpacity
-          onPress={() => handlePlayPause()}
-          style={styles.pressAdjustment}
-        >
+        <TouchableOpacity onPress={handleStop} style={styles.pressAdjustment}>
           {isPlaying ? <PauseIcon /> : <PlayIcon />}
         </TouchableOpacity>
-        <Text>Now Playing</Text>
+        <Text>{nowPlaying}</Text>
         <TouchableOpacity onPress={sleepTimer} style={styles.pressAdjustment}>
           <TimerIcon />
         </TouchableOpacity>
