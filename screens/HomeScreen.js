@@ -24,8 +24,6 @@ const HomeScreen = () => {
   const [soundObj, setSoundObj] = React.useState(null);
   const [nowPlaying, setNowPlaying] = React.useState("Select a sound");
   const { timer, setTimer } = useContext(AudioContext);
-  console.log("Time : " + timer);
-
   useEffect(() => {
     if (timer !== null) {
       if (isPlaying) {
@@ -33,7 +31,9 @@ const HomeScreen = () => {
           soundObj.stopAsync();
           setIsPlaying(false);
           setTimer(null);
-        }, timer * 1000);
+        }, timer * 100000);
+      } else {
+        setTimer(null);
       }
     }
   }, [timer]);
@@ -208,11 +208,15 @@ const HomeScreen = () => {
         </TouchableOpacity>
         <Text>{nowPlaying}</Text>
         <TouchableOpacity
+          disabled={!soundObj}
           onPress={() => {
             sleepTimer();
             Navigation.navigate("timer");
           }}
-          style={styles.pressAdjustment}
+          style={[
+            styles.pressAdjustment,
+            soundObj ? { opacity: 1 } : { opacity: 0.3 },
+          ]}
         >
           <TimerIcon />
         </TouchableOpacity>
