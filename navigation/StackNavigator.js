@@ -31,7 +31,7 @@ const StackNavigator = () => {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="Timer" component={TimerScreen} />
+        <Stack.Screen name="timer" component={TimerScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );

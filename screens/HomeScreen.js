@@ -1,5 +1,7 @@
-import React from "react";
+import { useNavigation } from "@react-navigation/native";
+import { Audio } from "expo-av";
 import { StatusBar } from "expo-status-bar";
+import React, { useContext, useEffect } from "react";
 import {
   Dimensions,
   ScrollView,
@@ -9,24 +11,32 @@ import {
   View,
 } from "react-native";
 import { soundsList } from "../assets/data";
+import { PauseIcon, PlayIcon, TimerIcon } from "../assets/icons/Icons";
+import { AudioContext } from "../AudioContext";
 import { defaultColors } from "../Colors";
-import { Feather } from "@expo/vector-icons";
 import ItemsComponent from "../components/ItemsComponent";
-import {
-  PauseIcon,
-  PlayIcon,
-  RainIcon,
-  TimerIcon,
-} from "../assets/icons/Icons";
-import { Audio } from "expo-av";
-import { Sound } from "expo-av/build/Audio";
 
 const { height, width } = Dimensions.get("window");
 
 const HomeScreen = () => {
+  const Navigation = useNavigation();
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [soundObj, setSoundObj] = React.useState(null);
   const [nowPlaying, setNowPlaying] = React.useState("Select a sound");
+  const { timer, setTimer } = useContext(AudioContext);
+  console.log("Time : " + timer);
+
+  useEffect(() => {
+    if (timer !== null) {
+      if (isPlaying) {
+        setTimeout(() => {
+          soundObj.stopAsync();
+          setIsPlaying(false);
+          setTimer(null);
+        }, timer * 1000);
+      }
+    }
+  }, [timer]);
 
   const handlePlayPause = async (song) => {
     if (song == 0) {
@@ -197,7 +207,13 @@ const HomeScreen = () => {
           {isPlaying ? <PauseIcon /> : <PlayIcon />}
         </TouchableOpacity>
         <Text>{nowPlaying}</Text>
-        <TouchableOpacity onPress={sleepTimer} style={styles.pressAdjustment}>
+        <TouchableOpacity
+          onPress={() => {
+            sleepTimer();
+            Navigation.navigate("timer");
+          }}
+          style={styles.pressAdjustment}
+        >
           <TimerIcon />
         </TouchableOpacity>
       </View>
