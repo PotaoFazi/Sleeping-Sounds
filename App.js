@@ -1,12 +1,15 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-
+import { NavigationContainer } from "@react-navigation/native";
+import { StyleSheet } from "react-native";
+import "react-native-gesture-handler";
+import { AudioProvider } from "./AudioContext";
+import StackNavigator from "./navigation/StackNavigator";
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Hello I am Faraz</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AudioProvider>
+      <NavigationContainer>
+        <StackNavigator />
+      </NavigationContainer>
+    </AudioProvider>
   );
 }
 
