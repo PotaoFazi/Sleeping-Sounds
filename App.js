@@ -1,13 +1,15 @@
-import "react-native-gesture-handler";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import StackNavigator from "./navigation/StackNavigator";
 import { NavigationContainer } from "@react-navigation/native";
+import { StyleSheet } from "react-native";
+import "react-native-gesture-handler";
+import { AudioProvider } from "./AudioContext";
+import StackNavigator from "./navigation/StackNavigator";
 export default function App() {
   return (
-    <NavigationContainer>
-      <StackNavigator />
-    </NavigationContainer>
+    <AudioProvider>
+      <NavigationContainer>
+        <StackNavigator />
+      </NavigationContainer>
+    </AudioProvider>
   );
 }
 

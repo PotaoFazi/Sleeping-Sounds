@@ -1,16 +1,17 @@
-import { Dimensions, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { Feather } from "@expo/vector-icons";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { AudioContext } from "../AudioContext";
 import { defaultColors } from "../Colors";
 
 const { height, width } = Dimensions.get("window");
 
 const ItemsComponent = (props) => {
+  const { setKey } = React.useContext(AudioContext);
   return (
     <View style={styles.container}>
       {props.icon && <props.icon style={styles.icon} />}
-      {/* <Feather name="cloud-rain" size={50} color="black" /> */}
       <Text>{props.name}</Text>
+      {setKey(props.id)}
     </View>
   );
 };

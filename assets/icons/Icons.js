@@ -13,3 +13,8 @@ export const ThunderIcon = () => (
 export const WindIcon = () => (
   <MaterialCommunityIcons name="weather-windy" size={50} color="black" />
 );
+export const PlayIcon = () => <Feather name="play" size={30} color="black" />;
+export const PauseIcon = () => <Feather name="pause" size={30} color="black" />;
+export const TimerIcon = () => (
+  <MaterialCommunityIcons name="av-timer" size={30} color="black" />
+);
