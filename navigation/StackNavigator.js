@@ -1,8 +1,13 @@
+import "react-native-gesture-handler";
 import { View, Text } from "react-native";
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
 import HomeScreen from "../screens/HomeScreen";
 import { defaultColors } from "../Colors";
+import TimerScreen from "../screens/TimerScreen";
 
 const StackNavigator = () => {
   const Stack = createStackNavigator();
@@ -15,7 +20,19 @@ const StackNavigator = () => {
         },
       }}
     >
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Group>
+        <Stack.Screen name="Home" component={HomeScreen} />
+      </Stack.Group>
+      <Stack.Group
+        screenOptions={{
+          presentation: "transparentModal",
+          gestureEnabled: true,
+          ...TransitionPresets.ModalPresentationIOS,
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="Timer" component={TimerScreen} />
+      </Stack.Group>
     </Stack.Navigator>
   );
 };
